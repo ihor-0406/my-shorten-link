@@ -6,12 +6,14 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.util.List;
 
-@RestController
+@Controller
 @PropertySource("classpath:application.properties")
 public class UrlControler {
 
@@ -28,6 +30,7 @@ public class UrlControler {
     }
 
     @PostMapping("shorten")
+    @ResponseBody
     public ShortenUrlDTO shorten(@RequestBody UrlDTO request) {
         var id = urlService.shortenUrl(request.getUrl());
         var shortenUrl = domainName + ":" + port + "/my/" + id;
@@ -60,7 +63,24 @@ public class UrlControler {
     }
 
     @GetMapping("stat")
+    @ResponseBody
     public List<UrlStatDTO> statistics() {
         return urlService.getStatistics();
     }
+
+//    ====================================================================================
+
+    @GetMapping("/statistics")
+   public String showStatistics(Model model){
+        model.addAttribute("statistics", urlService.getStatistics());
+        return "statistics";
+   }
+
+   @PostMapping("/delete-ui/{id}")
+    public String deleteLink(@PathVariable Long id){
+        urlService.deleteUrlById(id);
+        return "redirect:/statistics";
+    }
+
+
 }

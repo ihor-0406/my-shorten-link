@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>URL Statistics</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-body-secondary">
+
+<div class="container mt-5">
+    <h2 class="mb-4 text-center fw-semibold">Shortened URL Statistics</h2>
+    <div>
+        <a href="/" class="btn btn-outline-dark rounded-pill p-2  my-2"> <- Back </a>
+    </div>
+
+    <table class="table table-sm table-hover align-middle">
+        <thead class="table-light border-bottom">
+        <tr>
+            <th>ID</th>
+            <th>Original URL</th>
+            <th>Clicks</th>
+            <th>Last Access</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="url : ${statistics}">
+            <td th:text="${url.id}"></td>
+            <td>
+                <a th:href="${url.url}" th:text="${url.url}" target="_blank" class="text-decoration-none text-primary"></a>
+            </td>
+            <td th:text="${url.count}"></td>
+            <td th:text="${url.lastAccess != null ? #dates.format(url.lastAccess, 'yyyy-MM-dd HH:mm') : '—'}"></td>
+
+            <td>
+                <form th:action="@{'/delete-ui/' + ${url.id}}" method="post" class="m-0">
+                    <button type="submit" class="btn btn-outline-danger btn-sm">Delete</button>
+                </form>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>

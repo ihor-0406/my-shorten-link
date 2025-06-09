@@ -4,8 +4,18 @@ import java.util.Date;
 
 public class UrlStatDTO extends UrlDTO {
 
+    private Long id;
     private long count;
     private Date lastAccess;
+
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public long getCount() {
         return count;

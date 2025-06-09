@@ -32,6 +32,7 @@ public class UrlRecord {
         dto.setCount(count);
         dto.setLastAccess(lastAccess);
         dto.setUrl(url);
+        dto.setId(id);
         return dto;
     }
 
